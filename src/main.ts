@@ -13,7 +13,11 @@ async function bootstrap() {
   const logger = new Logger();
   const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
   await app.init();
